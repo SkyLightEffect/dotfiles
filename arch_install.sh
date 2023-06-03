@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DOT=~/.dotfiles
+#DOT=~/.dotfiles
+DOT=$(PWD)
 SCRIPTS=$DOT/scripts
 TMP=$DOT/.temp
 
@@ -11,7 +12,7 @@ sed -i "s/^#Color$/Color/" /etc/pacman.conf
 read -p "Do you need a base installation? [y/n]: " answer
 if [[ $answer = y ]] ; then
   chmod u+x $DOT/base_install.sh
-  ./$DOT/base_install.sh
+  /bin/bash $DOT/base_install.sh
 fi
 
 read -p "Do you want to install KDE-Plasma? [y/n]: " answer
