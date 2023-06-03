@@ -31,7 +31,8 @@ echo "de_DE.UTF-8 UTF-8" >> /etc/locale.gen
 echo "LANG=de_DE.UTF-8" >> /etc/locale.conf && locale-gen de_DE.UTF-8
 echo "KEYMAP=de-latin1" > /etc/vconsole.conf
 
-read -p "Hostname: " hostname
+echo "Hostname: " 
+read hostname
 echo $hostname > /etc/hostname
 echo "127.0.0.1       localhost" >> /etc/hosts
 echo "::1             localhost" >> /etc/hosts
