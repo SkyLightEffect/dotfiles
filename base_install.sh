@@ -68,4 +68,5 @@ su -c $ai3_path -s /bin/sh $username
 exit
 
 #part3
-cd $HOME 
+cd $HOME
+touch test.txt
