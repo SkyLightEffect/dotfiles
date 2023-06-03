@@ -2,13 +2,11 @@ pacman --noconfirm -Sy archlinux-keyring
 loadkeys de-latin1
 timedatectl set-ntp true
 lsblk
-echo "Enter the drive"
-read drive
+read -p "Enter the drive: " drive
 cfdisk $drive
-echo "Enter the linux partition: "
-read partition
+read -p "Enter the linux partition: " partition
 mkfs.ext4 $partition
-read -p "Did you also create efi partition? [y/n]" answer
+read -p "Did you also create efi partition? [y/n]: " answer
 if [[ $answer = y ]] ; then
   echo "Enter EFI partition: "
   read efipartition
