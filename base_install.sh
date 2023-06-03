@@ -6,12 +6,14 @@ read -p "Enter the drive: " drive
 cfdisk $drive
 read -p "Enter the linux partition: " partition
 mkfs.ext4 $partition
+mount $partition /mnt
 read -p "Did you also create efi partition? [y/n]: " answer
 if [[ $answer = y ]] ; then
   read -p "Enter EFI partition: " efipartition
-  mkfs.vfat -F 32 $efipartition
+  mkfs.ext4 $efipartition
+  mkdir /boot/efi
+  mount $efipartition /mnt/boot
 fi
-mount $partition /mnt
 pacstrap /mnt base base-devel linux linux-firmware sudo vim
 genfstab -U /mnt >> /mnt/etc/fstab
 sed '1,/^#part2$/d' `basename $0` > /mnt/arch_install2.sh
@@ -40,9 +42,9 @@ echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 #mkinitcpio -P
 passwd
 pacman --noconfirm -S grub efibootmgr
-read -p "Enter EFI partition: " efipartition
-mkdir /boot/efi
-mount $efipartition /boot/efi
+#read -p "Enter EFI partition: " efipartition
+#mkdir /boot/efi
+#mount $efipartition /boot/efi
 #grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-install $efipartition
 #sed -i 's/quiet/pci=noaer/g' /etc/default/grub
