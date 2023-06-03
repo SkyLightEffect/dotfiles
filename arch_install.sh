@@ -6,6 +6,7 @@ TMP=$DOT/.temp
 
 # increase package download speed
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
+sed -i "s/^#Color$/Color/" /etc/pacman.conf
 
 read -p "Do you need a base installation? [y/n]: " answer
 if [[ $answer = y ]] ; then
