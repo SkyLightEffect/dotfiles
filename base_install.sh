@@ -8,8 +8,7 @@ read -p "Enter the linux partition: " partition
 mkfs.ext4 $partition
 read -p "Did you also create efi partition? [y/n]: " answer
 if [[ $answer = y ]] ; then
-  echo "Enter EFI partition: "
-  read efipartition
+  read -p "Enter EFI partition: " efipartition
   mkfs.vfat -F 32 $efipartition
 fi
 mount $partition /mnt
