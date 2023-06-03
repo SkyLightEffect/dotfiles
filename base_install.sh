@@ -1,4 +1,4 @@
-pacman --noconfirm -Sy archlinux-keyring
+#pacman --noconfirm -Sy archlinux-keyring
 loadkeys de-latin1
 timedatectl set-ntp true
 lsblk
@@ -38,13 +38,14 @@ echo "::1             localhost" >> /etc/hosts
 echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 #mkinitcpio -P
 passwd
-pacman --noconfirm -S grub efibootmgr os-prober
+pacman --noconfirm -S grub efibootmgr
 read -p "Enter EFI partition: " efipartition
 mkdir /boot/efi
 mount $efipartition /boot/efi
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
-sed -i 's/quiet/pci=noaer/g' /etc/default/grub
-sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+#grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-install $efipartition
+#sed -i 's/quiet/pci=noaer/g' /etc/default/grub
+#sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # create new user with sudo privileges
