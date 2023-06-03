@@ -1,3 +1,7 @@
+# increase package download speed
+sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
+#sed -i "s/^#Color$/Color/" /etc/pacman.conf
+
 #pacman --noconfirm -Sy archlinux-keyring
 loadkeys de-latin1
 timedatectl set-ntp true
@@ -41,7 +45,8 @@ echo "::1             localhost" >> /etc/hosts
 echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 #mkinitcpio -P
 passwd
-pacman --noconfirm -S grub efibootmgr
+pacman --noconfirm -S grub networkmanager
+lsblk
 read -p "Enter the disk name grub should be installed on: " efipartition
 #mkdir /boot/efi
 #mount $efipartition /boot/efi
@@ -50,6 +55,7 @@ grub-install $efipartition
 #sed -i 's/quiet/pci=noaer/g' /etc/default/grub
 #sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
+systemctl enable NetworkManager
 
 # create new user with sudo privileges
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
@@ -69,4 +75,9 @@ exit
 
 #part3
 cd $HOME
-touch test.txt
+
+read -p "Do you want to install KDE-Plasma? [y/n]: " answer
+if [[ $answer = y ]] ; then
+  echo "Installing KDE-Plasma..."
+  sudo pacman -Syu xorg plasma plasma-wayland-session kde-applications --noconfirm && systemctl enable sddm
+fi
