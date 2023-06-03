@@ -31,8 +31,7 @@ echo "de_DE.UTF-8 UTF-8" >> /etc/locale.gen
 echo "LANG=de_DE.UTF-8" >> /etc/locale.conf && locale-gen de_DE.UTF-8
 echo "KEYMAP=de-latin1" > /etc/vconsole.conf
 
-echo "Hostname: "
-read hostname
+read -p "Hostname: " hostname
 echo $hostname > /etc/hostname
 echo "127.0.0.1       localhost" >> /etc/hosts
 echo "::1             localhost" >> /etc/hosts
@@ -40,8 +39,7 @@ echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 mkinitcpio -P
 passwd
 pacman --noconfirm -S grub efibootmgr os-prober
-echo "Enter EFI partition: "
-read efipartition
+read -p "Enter EFI partition: " efipartition
 mkdir /boot/efi
 mount $efipartition /boot/efi
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
@@ -51,8 +49,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # create new user with sudo privileges
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-echo "Enter username: "
-read username
+read -p "Enter username: " username
 useradd -m -G wheel -s /bin/bash $username
 passwd $username
 
